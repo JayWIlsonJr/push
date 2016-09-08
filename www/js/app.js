@@ -12,6 +12,7 @@ angular.module('starter', ['ionic', 'ionic.cloud'])
       "app_id": "9f2049c0"
     },
     "push": {
+      debug: true,
       "pluginConfig": {
         "ios": {
           "badge": true,
@@ -40,18 +41,22 @@ angular.module('starter', ['ionic', 'ionic.cloud'])
   });
 })
 
-
-
 .controller('myCtrl', function($scope, $ionicPush) {
   console.log('hello from ctrl');
+
+  // $ionicPush.unregister()
+
   $ionicPush.register().then(function(t) {
-    return $ionicPush.saveToken(t);
+    return $ionicPush.saveToken(t, {'ignore_user': true});
   }).then(function(t) {
-    console.log('Token saved:', t.token);
+    console.log('Token saved:', t);
   });
+
+
 
   // Handle notifications in app
   $scope.$on('cloud:push:notification', function(event, data) {
+    console.log('data',data);
     var msg = data.message;
     alert(msg.title + ': ' + msg.text);
   });
